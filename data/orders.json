@@ -1,0 +1,38 @@
+[
+    {
+        "order_id": "NS-1001",
+        "customer_id": "C-001",
+        "customer_name": "Sarah Johnson",
+        "email": "sarah@example.com",
+        "product_id": "P-001",
+        "product_name": "100ft Heavy-Duty Garden Hose",
+        "quantity": 1,
+        "status": "delivered",
+        "order_date": "2026-08-10",
+        "delivery_date": "2026-08-12"
+    },
+    {
+        "order_id": "NS-1002",
+        "customer_id": "C-002",
+        "customer_name": "Michael Brown",
+        "email": "michael@example.com",
+        "product_id": "P-002",
+        "product_name": "50ft Expandable Garden Hose",
+        "quantity": 1,
+        "status": "delivered",
+        "order_date": "2026-08-08",
+        "delivery_date": "2026-08-11"
+    },
+    {
+        "order_id": "NS-1003",
+        "customer_id": "C-003",
+        "customer_name": "Jessica Davis",
+        "email": "jessica@example.com",
+        "product_id": "P-003",
+        "product_name": "Heavy-Duty Hose Reel",
+        "quantity": 1,
+        "status": "shipped",
+        "order_date": "2026-08-11",
+        "delivery_date": null
+    }
+]

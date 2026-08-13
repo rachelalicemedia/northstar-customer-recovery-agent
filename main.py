@@ -2,6 +2,8 @@ from agent import analyze_customer_message
 
 
 message = """
+My order number is NS-1001.
+
 My garden hose arrived cracked and I need it for a project tomorrow.
 Can you send me another one?
 """

@@ -1,39 +1,56 @@
+import json
 import os
 
 from dotenv import load_dotenv
 from openai import OpenAI
 
 from models import CustomerAnalysis
-from tools import get_policy
+from tools import TOOL_FUNCTIONS
 
 load_dotenv()
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 
-def analyze_customer_message(message: str) -> CustomerAnalysis:
-
-    tools = [
-        {
-            "type": "function",
-            "name": "get_policy",
-            "description": (
-                "Retrieve Northstar Supply Co. customer service policies. "
-                "Use this whenever you need to determine what actions "
-                "are allowed or when a customer issue requires escalation."
-            ),
-            "parameters": {
-                "type": "object",
-                "properties": {},
-                "additionalProperties": False
-            }
+TOOLS = [
+    {
+        "type": "function",
+        "name": "get_policy",
+        "description": (
+            "Retrieve Northstar Supply Co. customer service policies. "
+            "Use this whenever you need to determine what actions "
+            "are allowed or when a customer issue requires escalation."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": False
         }
-    ]
+    },
+    {
+        "type": "function",
+        "name": "get_order",
+        "description": (
+            "Retrieve a Northstar customer order using its order ID. "
+            "Use this when the customer provides an order number and "
+            "you need to verify order details."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "order_id": {
+                    "type": "string",
+                    "description": "The Northstar order ID, such as NS-1001."
+                }
+            },
+            "required": ["order_id"],
+            "additionalProperties": False
+        }
+    }
+]
 
-    input_messages = [
-        {
-            "role": "system",
-            "content": """
+
+SYSTEM_PROMPT = """
 You are the Northstar Supply Co. Customer Recovery Agent.
 
 Your job is to analyze customer messages and determine the safest
@@ -57,6 +74,14 @@ Determine:
 - whether human intervention is required
 - reason for your recommendation
 """
+
+
+def analyze_customer_message(message: str) -> CustomerAnalysis:
+
+    conversation = [
+        {
+            "role": "system",
+            "content": SYSTEM_PROMPT
         },
         {
             "role": "user",
@@ -64,34 +89,49 @@ Determine:
         }
     ]
 
-    response = client.responses.create(
-        model="gpt-5-mini",
-        input=input_messages,
-        tools=tools
-    )
+    while True:
 
-    # Preserve the complete model response
-    input_messages += response.output
+        response = client.responses.create(
+            model="gpt-5-mini",
+            input=conversation,
+            tools=TOOLS
+        )
 
-    # Execute any requested tools
-    for item in response.output:
+        conversation += response.output
 
-        if item.type == "function_call":
+        tool_calls = [
+            item
+            for item in response.output
+            if item.type == "function_call"
+        ]
 
-            if item.name == "get_policy":
+        if not tool_calls:
+            break
 
-                policy = get_policy()
+        for tool_call in tool_calls:
 
-                input_messages.append({
-                    "type": "function_call_output",
-                    "call_id": item.call_id,
-                    "output": policy
-                })
+            tool_name = tool_call.name
 
-    # Ask the model for the final structured decision
+            if tool_name not in TOOL_FUNCTIONS:
+                raise ValueError(
+                    f"Unknown tool requested: {tool_name}"
+                )
+
+            tool_function = TOOL_FUNCTIONS[tool_name]
+
+            arguments = json.loads(tool_call.arguments)
+
+            result = tool_function(**arguments)
+
+            conversation.append({
+                "type": "function_call_output",
+                "call_id": tool_call.call_id,
+                "output": str(result)
+            })
+
     final_response = client.responses.parse(
         model="gpt-5-mini",
-        input=input_messages,
+        input=conversation,
         text_format=CustomerAnalysis
     )
 

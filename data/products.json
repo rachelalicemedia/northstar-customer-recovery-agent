@@ -1,0 +1,20 @@
+[
+    {
+        "product_id": "P-001",
+        "name": "100ft Heavy-Duty Garden Hose",
+        "price": 59.99,
+        "inventory": 18
+    },
+    {
+        "product_id": "P-002",
+        "name": "50ft Expandable Garden Hose",
+        "price": 39.99,
+        "inventory": 7
+    },
+    {
+        "product_id": "P-003",
+        "name": "Heavy-Duty Hose Reel",
+        "price": 89.99,
+        "inventory": 3
+    }
+]
