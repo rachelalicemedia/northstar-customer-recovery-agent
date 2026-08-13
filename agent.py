@@ -6,6 +6,10 @@ from openai import OpenAI
 
 from models import CustomerAnalysis
 from tools import TOOL_FUNCTIONS
+from permissions import (
+    check_action_permission,
+    is_action_tool,
+)
 
 load_dotenv()
 
@@ -46,7 +50,80 @@ TOOLS = [
             "required": ["order_id"],
             "additionalProperties": False
         }
-    }
+    },
+    {
+        "type": "function",
+        "name": "send_customer_message",
+        "description": (
+            "Send a customer service message to a Northstar customer. "
+            "Only use this when sending a message is appropriate under "
+            "Northstar policy."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "customer_email": {
+                    "type": "string",
+                    "description": "The customer's email address."
+                },
+                "message": {
+                    "type": "string",
+                    "description": "The message to send to the customer."
+                }
+            },
+            "required": [
+                "customer_email",
+                "message"
+            ],
+            "additionalProperties": False
+        }
+    },
+    {
+        "type": "function",
+        "name": "create_support_ticket",
+        "description": (
+            "Create a support ticket for human intervention when a "
+            "customer issue cannot be safely resolved by the AI."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "customer_id": {
+                    "type": "string",
+                    "description": "The Northstar customer ID."
+                },
+                "order_id": {
+                    "type": "string",
+                    "description": "The Northstar order ID."
+                },
+                "issue": {
+                    "type": "string",
+                    "description": "A concise description of the issue."
+                },
+                "severity": {
+                    "type": "string",
+                    "description": "The severity of the issue."
+                },
+                "summary": {
+                    "type": "string",
+                    "description": "A concise summary for the human support agent."
+                },
+                "recommended_action": {
+                    "type": "string",
+                    "description": "What the human support agent should do next."
+                }
+            },
+            "required": [
+                "customer_id",
+                "order_id",
+                "issue",
+                "severity",
+                "summary",
+                "recommended_action"
+            ],
+            "additionalProperties": False
+        }
+    },
 ]
 
 
@@ -73,6 +150,27 @@ Determine:
 - recommended action
 - whether human intervention is required
 - reason for your recommendation
+
+You may send customer messages when appropriate.
+
+When a customer has experienced a problem, the message should:
+- acknowledge the customer's experience
+- apologize sincerely
+- avoid making promises that policy does not authorize
+- clearly explain the next appropriate step
+
+Do not promise expedited shipping, refunds, discounts, or other
+compensation unless company policy explicitly allows it.
+
+If human intervention is required, do not pretend that the issue
+has been resolved.
+
+When human intervention is required, create a support ticket
+containing the relevant customer, order, issue, severity, summary,
+and recommended next action.
+
+Do not merely recommend escalation. Use the support ticket tool
+to create the ticket.
 """
 
 
@@ -121,7 +219,26 @@ def analyze_customer_message(message: str) -> CustomerAnalysis:
 
             arguments = json.loads(tool_call.arguments)
 
-            result = tool_function(**arguments)
+            if is_action_tool(tool_name):
+
+                permission = check_action_permission(
+                    action=tool_name
+                )
+
+                if not permission.allowed:
+
+                    result = {
+                        "status": "blocked",
+                        "reason": permission.reason
+                    }
+
+                else:
+
+                    result = tool_function(**arguments)
+
+            else:
+
+                result = tool_function(**arguments)
 
             conversation.append({
                 "type": "function_call_output",

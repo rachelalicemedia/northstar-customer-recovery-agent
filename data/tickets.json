@@ -1,0 +1,22 @@
+[
+    {
+        "ticket_id": "T-1001",
+        "customer_id": "C-001",
+        "order_id": "NS-1001",
+        "issue": "Customer received damaged (cracked) 100ft Heavy-Duty Garden Hose and needs replacement for a project tomorrow.",
+        "severity": "high",
+        "summary": "Damaged hose delivered (cracked); customer requests replacement for next-day use \u2014 human assistance required to verify stock and shipping options.",
+        "recommended_action": "Verify inventory for product P-001. Check expedited shipping options and feasibility to meet customer's next-day requirement; if expedited shipping is possible, advise costs and obtain approval; if replacement cannot arrive in time, offer refund and/or alternatives. Contact customer (sarah@example.com) to request photos of damage and confirm preferred resolution.",
+        "status": "open"
+    },
+    {
+        "ticket_id": "T-1002",
+        "customer_id": "C-001",
+        "order_id": "NS-1001",
+        "issue": "Customer reports 100ft Heavy-Duty Garden Hose arrived cracked; needs replacement by tomorrow (time-sensitive).",
+        "severity": "high",
+        "summary": "Time-sensitive: damaged garden hose delivered (NS-1001). Customer requests replacement to arrive by next day.",
+        "recommended_action": "Verify inventory for product P-001. Contact customer to request photo of damage. Confirm available shipping methods and whether expedited shipping is possible/approved. If expedited shipping is not available or not approved, offer standard replacement or refund to original payment method. Provide next steps and timeline to customer.",
+        "status": "open"
+    }
+]
