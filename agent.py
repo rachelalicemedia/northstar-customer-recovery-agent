@@ -6,10 +6,12 @@ from openai import OpenAI
 
 from models import CustomerAnalysis
 from tools import TOOL_FUNCTIONS
+from logger import log_event
 from permissions import (
     check_action_permission,
     is_action_tool,
 )
+
 
 load_dotenv()
 
@@ -82,8 +84,8 @@ TOOLS = [
         "type": "function",
         "name": "create_support_ticket",
         "description": (
-            "Create a support ticket for human intervention when a "
-            "customer issue cannot be safely resolved by the AI."
+            "Create a detailed support ticket for human intervention "
+            "when a customer issue cannot be safely resolved by the AI."
         ),
         "parameters": {
             "type": "object",
@@ -104,9 +106,17 @@ TOOLS = [
                     "type": "string",
                     "description": "The severity of the issue."
                 },
+                "customer_intent": {
+                    "type": "string",
+                    "description": "What the customer is asking Northstar to do."
+                },
                 "summary": {
                     "type": "string",
                     "description": "A concise summary for the human support agent."
+                },
+                "policy_reason": {
+                    "type": "string",
+                    "description": "Why the AI cannot safely resolve the issue."
                 },
                 "recommended_action": {
                     "type": "string",
@@ -118,7 +128,9 @@ TOOLS = [
                 "order_id",
                 "issue",
                 "severity",
+                "customer_intent",
                 "summary",
+                "policy_reason",
                 "recommended_action"
             ],
             "additionalProperties": False
@@ -165,9 +177,20 @@ compensation unless company policy explicitly allows it.
 If human intervention is required, do not pretend that the issue
 has been resolved.
 
-When human intervention is required, create a support ticket
-containing the relevant customer, order, issue, severity, summary,
-and recommended next action.
+When human intervention is required, create a detailed support ticket.
+
+The ticket must include:
+- customer ID
+- order ID
+- issue
+- severity
+- customer intent
+- concise summary
+- the policy reason escalation is required
+- recommended next action for the human agent
+
+The ticket should allow a human agent to understand the situation
+without rereading the original customer conversation.
 
 Do not merely recommend escalation. Use the support ticket tool
 to create the ticket.
@@ -222,7 +245,17 @@ def analyze_customer_message(message: str) -> CustomerAnalysis:
             if is_action_tool(tool_name):
 
                 permission = check_action_permission(
-                    action=tool_name
+                    action=tool_name,
+                    message=arguments.get("message", "")
+                )
+
+                log_event(
+                    "permission_check",
+                    {
+                        "tool": tool_name,
+                        "allowed": permission.allowed,
+                        "reason": permission.reason
+                    }
                 )
 
                 if not permission.allowed:
@@ -234,9 +267,25 @@ def analyze_customer_message(message: str) -> CustomerAnalysis:
 
                 else:
 
+                    log_event(
+                        "tool_called",
+                        {
+                            "tool": tool_name,
+                            "arguments": arguments
+                        }
+                    )
+
                     result = tool_function(**arguments)
 
             else:
+
+                log_event(
+                    "tool_called",
+                    {
+                        "tool": tool_name,
+                        "arguments": arguments
+                    }
+                )
 
                 result = tool_function(**arguments)
 

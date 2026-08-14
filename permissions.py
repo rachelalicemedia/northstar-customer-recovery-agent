@@ -9,6 +9,7 @@ class PermissionResult:
 
 def check_action_permission(
     action: str,
+    message: str = "",
     requires_human: bool = False
 ) -> PermissionResult:
     """
@@ -21,16 +22,37 @@ def check_action_permission(
             reason="This action requires human intervention."
         )
 
-    allowed_actions = {
-        "send_customer_message",
-        "create_support_ticket",
-    }
-
-    if action not in allowed_actions:
+    if action not in ACTION_TOOLS:
         return PermissionResult(
             allowed=False,
             reason=f"Action '{action}' is not authorized."
         )
+
+    if action == "send_customer_message":
+
+        prohibited_phrases = [
+            "guaranteed delivery",
+            "guaranteed overnight",
+            "guaranteed next-day",
+            "will arrive tomorrow",
+            "will arrive by tomorrow",
+            "replacement has shipped",
+            "overnight shipping confirmed",
+            "next-day shipping confirmed",
+        ]
+
+        message_lower = message.lower()
+
+        for phrase in prohibited_phrases:
+
+            if phrase in message_lower:
+                return PermissionResult(
+                    allowed=False,
+                    reason=(
+                        f"Message contains an unauthorized promise: "
+                        f"'{phrase}'"
+                    )
+                )
 
     return PermissionResult(
         allowed=True,

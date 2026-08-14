@@ -18,5 +18,29 @@
         "summary": "Time-sensitive: damaged garden hose delivered (NS-1001). Customer requests replacement to arrive by next day.",
         "recommended_action": "Verify inventory for product P-001. Contact customer to request photo of damage. Confirm available shipping methods and whether expedited shipping is possible/approved. If expedited shipping is not available or not approved, offer standard replacement or refund to original payment method. Provide next steps and timeline to customer.",
         "status": "open"
+    },
+    {
+        "ticket_id": "T-1003",
+        "customer_id": "C-001",
+        "order_id": "NS-1001",
+        "issue": "Customer received damaged product: 100ft Heavy-Duty Garden Hose arrived cracked.",
+        "severity": "high",
+        "customer_intent": "Customer requests a replacement sent to arrive by tomorrow for a project.",
+        "summary": "Order NS-1001 (100ft Heavy-Duty Garden Hose) delivered 2026-08-12 arrived cracked. Customer Sarah Johnson needs a replacement for a project tomorrow and requests we send another hose. Replacement requires inventory and shipping verification; customer may accept refund if replacement not possible.",
+        "policy_reason": "Per Northstar policy, requests requiring delivery by a specific date must be escalated to a human agent so they can verify inventory and shipping options (AI may not promise expedited shipping).",
+        "recommended_action": "Human agent should: 1) Confirm damage (review customer-provided photos or request them if not provided). 2) Check current inventory for product P-001 and available shipping methods and cutoff times. 3) Determine whether a replacement can be shipped in time for customer's deadline or offer a refund if not possible. 4) If replacement is possible, arrange shipment and notify the customer; if not, issue a refund per policy. 5) Update ticket with chosen resolution and shipping details. Include proposed timeline and any shipping cost approvals if expedited shipping is needed (escalate further per internal procedures).",
+        "status": "open"
+    },
+    {
+        "ticket_id": "T-1004",
+        "customer_id": "C-001",
+        "order_id": "NS-1001",
+        "issue": "Customer reports delivered garden hose arrived cracked. Customer needs replacement by next day for a project (time-sensitive).",
+        "severity": "high",
+        "customer_intent": "Receive a replacement garden hose (send another one) or refund if replacement unavailable; needs it by tomorrow.",
+        "summary": "Delivered 100ft Heavy-Duty Garden Hose (NS-1001) arrived cracked. Customer (Sarah Johnson) requests a replacement for a project scheduled tomorrow. AI cannot confirm inventory or guarantee expedited shipping.",
+        "policy_reason": "Policy requires escalation when a customer requires delivery by a specific date and when expedited shipping may be needed. AI cannot verify inventory or promise expedited shipping, so human agent must confirm stock and shipping options.",
+        "recommended_action": "Human agent should: 1) Verify inventory for product P-001; 2) Determine available shipping options and whether expedited shipping can meet customer's deadline; 3) If expedited shipping is possible, authorize and arrange it or offer alternatives; 4) If replacement is unavailable or expedited shipping cannot meet deadline, offer a full refund or alternative solution; 5) Contact customer (sarah@example.com) with options and next steps. Include request for photo of damage if needed.",
+        "status": "open"
     }
 ]

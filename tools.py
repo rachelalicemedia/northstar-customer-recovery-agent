@@ -61,10 +61,12 @@ def create_support_ticket(
     order_id: str,
     issue: str,
     severity: str,
+    customer_intent: str,
     summary: str,
+    policy_reason: str,
     recommended_action: str
 ) -> dict:
-    """Create a support ticket for human intervention."""
+    """Create a detailed support ticket for human intervention."""
 
     tickets_file = Path(__file__).parent / "data" / "tickets.json"
 
@@ -80,7 +82,9 @@ def create_support_ticket(
         "order_id": order_id,
         "issue": issue,
         "severity": severity,
+        "customer_intent": customer_intent,
         "summary": summary,
+        "policy_reason": policy_reason,
         "recommended_action": recommended_action,
         "status": "open"
     }
