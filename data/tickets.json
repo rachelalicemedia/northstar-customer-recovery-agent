@@ -54,5 +54,17 @@
         "policy_reason": "Policy requires escalation when a customer requests delivery by a specific date because the AI cannot verify inventory or shipping options and may not promise expedited shipping. AI also cannot authorize compensation beyond replacements/refunds per policy.",
         "recommended_action": "Check inventory for product P-001 (100ft Heavy-Duty Garden Hose). If in stock, determine fastest shipping options and cutoffs to see if delivery by 2026-08-18 is feasible. If feasible, arrange shipment and notify customer; if not feasible, contact customer with alternatives (refund, available replacement timelines, or other product options). If expedited shipping is required, human approval and action are needed. Contact customer at sarah@example.com and phone on file if available. Document resolution steps and confirm shipment or refund.",
         "status": "open"
+    },
+    {
+        "ticket_id": "T-1006",
+        "customer_id": "C-001",
+        "order_id": "NS-1001",
+        "issue": "Customer received damaged product (100ft Heavy-Duty Garden Hose) \u2014 arrived cracked. Customer needs a replacement delivered by tomorrow for a time-sensitive project.",
+        "severity": "High - time-sensitive (customer requests delivery by a specific date)",
+        "customer_intent": "Customer requests Northstar send a replacement hose to arrive by tomorrow.",
+        "summary": "Order NS-1001 (100ft Heavy-Duty Garden Hose) delivered 2026-08-12 arrived cracked. Customer Sarah Johnson (C-001, sarah@example.com) requests a replacement to arrive by tomorrow for a project. AI may confirm damage via photo but cannot guarantee expedited shipping or verify inventory. Escalation required to evaluate stock, shipping options/cutoff times, and arrange expedited shipment or refund.",
+        "policy_reason": "Customer is requesting delivery by a specific date and likely requires expedited shipping. Per policy, AI may not promise or arrange expedited shipping and must escalate such time-sensitive requests for a human agent to verify inventory and shipping options.",
+        "recommended_action": "1) Verify inventory for product P-001 and confirm whether a same-item replacement is available. 2) If available, check carrier cutoff times and expedited shipping options/costs and confirm whether delivery by the requested date is possible. 3) If expedited delivery is possible, arrange shipment and confirm cost/coverage with customer (do not assume free expedited shipping). 4) If not possible, offer a full refund or alternative solutions (e.g., local store pickup, compatible product available for immediate pickup). 5) Review photos of damage (ask customer if not already provided). 6) Respond to customer email (sarah@example.com) with final resolution and next steps. Include any required approval for expedited shipping or compensation if policy allows. Please contact customer promptly due to urgent timeline.",
+        "status": "open"
     }
 ]

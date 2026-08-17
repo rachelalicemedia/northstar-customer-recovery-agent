@@ -1,4 +1,5 @@
 from policy_rules import POLICY_RULES
+from policy_checker import check_message_against_policy
 from dataclasses import dataclass
 
 
@@ -49,7 +50,6 @@ def check_action_permission(
         for pattern in prohibited_patterns:
 
             if pattern in message_lower:
-
                 return PermissionResult(
                     allowed=False,
                     reason=(
@@ -57,6 +57,14 @@ def check_action_permission(
                         f"making this promise: '{pattern}'."
                     )
                 )
+
+        semantic_result = check_message_against_policy(message)
+
+        if not semantic_result.allowed:
+            return PermissionResult(
+                allowed=False,
+                reason=semantic_result.reason
+            )
 
     return PermissionResult(
         allowed=True,
