@@ -42,5 +42,17 @@
         "policy_reason": "Policy requires escalation when a customer requires delivery by a specific date and when expedited shipping may be needed. AI cannot verify inventory or promise expedited shipping, so human agent must confirm stock and shipping options.",
         "recommended_action": "Human agent should: 1) Verify inventory for product P-001; 2) Determine available shipping options and whether expedited shipping can meet customer's deadline; 3) If expedited shipping is possible, authorize and arrange it or offer alternatives; 4) If replacement is unavailable or expedited shipping cannot meet deadline, offer a full refund or alternative solution; 5) Contact customer (sarah@example.com) with options and next steps. Include request for photo of damage if needed.",
         "status": "open"
+    },
+    {
+        "ticket_id": "T-1005",
+        "customer_id": "C-001",
+        "order_id": "NS-1001",
+        "issue": "Delivered product (100ft Heavy-Duty Garden Hose, qty 1) arrived cracked. Customer needs a replacement to arrive by 2026-08-18 for a time-sensitive project.",
+        "severity": "high",
+        "customer_intent": "Customer requests a replacement hose to be sent to arrive by 2026-08-18 (tomorrow).",
+        "summary": "Customer Sarah Johnson (C-001) reports that order NS-1001 (100ft Heavy-Duty Garden Hose) was delivered on 2026-08-12 but arrived cracked. Customer needs a replacement by 2026-08-18 for a project. No photos provided. AI verified order and policy; cannot confirm inventory or shipping options and cannot promise expedited shipping. Escalation required to verify stock and shipping cutoffs and to determine if replacement can be shipped to meet the customer's deadline or if refund/alternative solutions are needed.",
+        "policy_reason": "Policy requires escalation when a customer requests delivery by a specific date because the AI cannot verify inventory or shipping options and may not promise expedited shipping. AI also cannot authorize compensation beyond replacements/refunds per policy.",
+        "recommended_action": "Check inventory for product P-001 (100ft Heavy-Duty Garden Hose). If in stock, determine fastest shipping options and cutoffs to see if delivery by 2026-08-18 is feasible. If feasible, arrange shipment and notify customer; if not feasible, contact customer with alternatives (refund, available replacement timelines, or other product options). If expedited shipping is required, human approval and action are needed. Contact customer at sarah@example.com and phone on file if available. Document resolution steps and confirm shipment or refund.",
+        "status": "open"
     }
 ]

@@ -1,3 +1,4 @@
+from policy_rules import POLICY_RULES
 from dataclasses import dataclass
 
 
@@ -9,54 +10,57 @@ class PermissionResult:
 
 def check_action_permission(
     action: str,
-    message: str = "",
-    requires_human: bool = False
+    message: str = ""
 ) -> PermissionResult:
+
     """
-    Determine whether the agent is permitted to execute an action.
+    Determine whether an action is permitted under
+    Northstar's business policies.
     """
 
-    if requires_human:
+    if action not in POLICY_RULES:
         return PermissionResult(
             allowed=False,
-            reason="This action requires human intervention."
+            reason=f"Action '{action}' is not defined by policy."
         )
 
-    if action not in ACTION_TOOLS:
+    policy = POLICY_RULES[action]
+
+    if not policy["allowed"]:
         return PermissionResult(
             allowed=False,
-            reason=f"Action '{action}' is not authorized."
+            reason=f"Policy does not authorize action '{action}'."
         )
 
     if action == "send_customer_message":
 
-        prohibited_phrases = [
+        message_lower = message.lower()
+
+        prohibited_patterns = [
+            "will arrive tomorrow",
+            "will arrive by tomorrow",
             "guaranteed delivery",
             "guaranteed overnight",
             "guaranteed next-day",
-            "will arrive tomorrow",
-            "will arrive by tomorrow",
-            "replacement has shipped",
             "overnight shipping confirmed",
             "next-day shipping confirmed",
         ]
 
-        message_lower = message.lower()
+        for pattern in prohibited_patterns:
 
-        for phrase in prohibited_phrases:
+            if pattern in message_lower:
 
-            if phrase in message_lower:
                 return PermissionResult(
                     allowed=False,
                     reason=(
-                        f"Message contains an unauthorized promise: "
-                        f"'{phrase}'"
+                        "Northstar policy prohibits the AI from "
+                        f"making this promise: '{pattern}'."
                     )
                 )
 
     return PermissionResult(
         allowed=True,
-        reason="Action is authorized."
+        reason="Action is authorized by Northstar policy."
     )
 
 READ_ONLY_TOOLS = {

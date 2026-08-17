@@ -62,5 +62,69 @@
                 "message": "Hi Sarah \u2014 I'm sorry to hear your 100ft Heavy\u2011Duty Garden Hose arrived cracked. I know you need it for a project tomorrow and I understand how stressful that is. I\u2019ve opened this with our support team so a human agent can confirm inventory and available shipping options.\n\nTo help us move quickly, could you reply with whether you\u2019d prefer a replacement or a full refund? If possible, please attach a photo of the crack/damage \u2014 that will help speed the process. A human agent will review the case and contact you at this email with available options and next steps. I can\u2019t promise expedited shipping from here, but the team will work to find the fastest solution.\n\nAgain, I\u2019m sorry for the trouble \u2014 we\u2019ll follow up shortly."
             }
         }
+    },
+    {
+        "timestamp": "2026-08-17T13:38:14.497008",
+        "event_type": "tool_called",
+        "details": {
+            "tool": "get_policy",
+            "arguments": {}
+        }
+    },
+    {
+        "timestamp": "2026-08-17T13:38:14.517953",
+        "event_type": "tool_called",
+        "details": {
+            "tool": "get_order",
+            "arguments": {
+                "order_id": "NS-1001"
+            }
+        }
+    },
+    {
+        "timestamp": "2026-08-17T13:38:28.335614",
+        "event_type": "permission_check",
+        "details": {
+            "tool": "create_support_ticket",
+            "allowed": true,
+            "reason": "Action is authorized by Northstar policy."
+        }
+    },
+    {
+        "timestamp": "2026-08-17T13:38:28.345376",
+        "event_type": "tool_called",
+        "details": {
+            "tool": "create_support_ticket",
+            "arguments": {
+                "customer_id": "C-001",
+                "order_id": "NS-1001",
+                "issue": "Delivered product (100ft Heavy-Duty Garden Hose, qty 1) arrived cracked. Customer needs a replacement to arrive by 2026-08-18 for a time-sensitive project.",
+                "severity": "high",
+                "customer_intent": "Customer requests a replacement hose to be sent to arrive by 2026-08-18 (tomorrow).",
+                "summary": "Customer Sarah Johnson (C-001) reports that order NS-1001 (100ft Heavy-Duty Garden Hose) was delivered on 2026-08-12 but arrived cracked. Customer needs a replacement by 2026-08-18 for a project. No photos provided. AI verified order and policy; cannot confirm inventory or shipping options and cannot promise expedited shipping. Escalation required to verify stock and shipping cutoffs and to determine if replacement can be shipped to meet the customer's deadline or if refund/alternative solutions are needed.",
+                "policy_reason": "Policy requires escalation when a customer requests delivery by a specific date because the AI cannot verify inventory or shipping options and may not promise expedited shipping. AI also cannot authorize compensation beyond replacements/refunds per policy.",
+                "recommended_action": "Check inventory for product P-001 (100ft Heavy-Duty Garden Hose). If in stock, determine fastest shipping options and cutoffs to see if delivery by 2026-08-18 is feasible. If feasible, arrange shipment and notify customer; if not feasible, contact customer with alternatives (refund, available replacement timelines, or other product options). If expedited shipping is required, human approval and action are needed. Contact customer at sarah@example.com and phone on file if available. Document resolution steps and confirm shipment or refund."
+            }
+        }
+    },
+    {
+        "timestamp": "2026-08-17T13:38:32.616930",
+        "event_type": "permission_check",
+        "details": {
+            "tool": "send_customer_message",
+            "allowed": true,
+            "reason": "Action is authorized by Northstar policy."
+        }
+    },
+    {
+        "timestamp": "2026-08-17T13:38:32.644814",
+        "event_type": "tool_called",
+        "details": {
+            "tool": "send_customer_message",
+            "arguments": {
+                "customer_email": "sarah@example.com",
+                "message": "Hi Sarah \u2014 I'm sorry to hear your 100ft Heavy-Duty Garden Hose arrived cracked. I know you have a time-sensitive project tomorrow and I\u2019m sorry for the inconvenience. I\u2019ve escalated this to our support team so they can verify inventory and shipping options. Because you\u2019ve asked for delivery by a specific date, our team needs to confirm whether a replacement can be shipped to meet that deadline and which shipping methods are available. \n\nTo help them resolve this quickly, could you please reply with a photo of the crack? Also let us know whether you\u2019d prefer a replacement or a refund if we can\u2019t get a replacement there in time. A member of our support team will contact you at this email with next steps as soon as they have an update.\n\nAgain, I\u2019m very sorry this happened and we\u2019ll work to get it resolved."
+            }
+        }
     }
 ]
