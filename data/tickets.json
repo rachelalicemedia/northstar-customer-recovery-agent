@@ -66,5 +66,29 @@
         "policy_reason": "Customer is requesting delivery by a specific date and likely requires expedited shipping. Per policy, AI may not promise or arrange expedited shipping and must escalate such time-sensitive requests for a human agent to verify inventory and shipping options.",
         "recommended_action": "1) Verify inventory for product P-001 and confirm whether a same-item replacement is available. 2) If available, check carrier cutoff times and expedited shipping options/costs and confirm whether delivery by the requested date is possible. 3) If expedited delivery is possible, arrange shipment and confirm cost/coverage with customer (do not assume free expedited shipping). 4) If not possible, offer a full refund or alternative solutions (e.g., local store pickup, compatible product available for immediate pickup). 5) Review photos of damage (ask customer if not already provided). 6) Respond to customer email (sarah@example.com) with final resolution and next steps. Include any required approval for expedited shipping or compensation if policy allows. Please contact customer promptly due to urgent timeline.",
         "status": "open"
+    },
+    {
+        "ticket_id": "T-1007",
+        "customer_id": "C-001",
+        "order_id": "NS-1001",
+        "issue": "Delivered damaged (cracked) 100ft Heavy-Duty Garden Hose; customer needs replacement by tomorrow",
+        "severity": "high",
+        "customer_intent": "Customer requests a replacement shipped to arrive by tomorrow",
+        "summary": "Customer (Sarah Johnson, C-001) received order NS-1001 (100ft Heavy-Duty Garden Hose) delivered 2026-08-12. Customer reports hose arrived cracked and requests another one urgently for a project tomorrow. AI cannot verify inventory or promise expedited shipping.",
+        "policy_reason": "Per policy, replacements require inventory verification and the AI may not promise expedited shipping. Customer requests delivery by a specific date (tomorrow), which requires human escalation to check stock and shipping options.",
+        "recommended_action": "1) Verify current inventory for product P-001. 2) If in stock, evaluate shipping options and provide the customer with available shipping speeds and any costs (offer standard replacement shipping at no cost; consider expedited shipping if available and authorize per company rules). 3) If expedited shipping is needed and allowed, arrange it or offer alternatives (refund or store credit) if not available. 4) Communicate options and next steps to customer at sarah@example.com and confirm which option they choose. 5) If replacement shipped, provide tracking and expected delivery date. 6) If refund chosen/required, process refund to original payment method and confirm to customer. Include request for a photo of the damaged item if needed for quality tracking, but do not delay resolution for the photo if customer needs urgent replacement.",
+        "status": "open"
+    },
+    {
+        "ticket_id": "T-1008",
+        "customer_id": "C-001",
+        "order_id": "NS-1001",
+        "issue": "100ft Heavy-Duty Garden Hose arrived cracked/damaged; customer needs replacement by tomorrow (time-sensitive).",
+        "severity": "high",
+        "customer_intent": "Customer asks for a replacement sent to arrive by next-day (needs hose for project tomorrow).",
+        "summary": "Order NS-1001 (C-001, Sarah Johnson) delivered 2026-08-12 contained a cracked 100ft Heavy-Duty Garden Hose. Customer reports damage and requests another sent to arrive by 2026-08-18 (tomorrow). This is time-sensitive; AI cannot verify inventory or promise expedited shipping.",
+        "policy_reason": "Customer requires delivery by a specific date and may need expedited shipping. Per policy, the AI must escalate when a customer requires expedited shipping or when verifying inventory/shipping options is necessary.",
+        "recommended_action": "Human agent should: 1) Verify inventory for product P-001; 2) Check shipping options and cutoff times to determine if next-day delivery or expedited shipping is possible; 3) If expedited shipping is available, authorize and arrange shipment or offer alternative (local pickup, nearest store) and confirm cost coverage; 4) If replacement cannot arrive by the required date, offer refund or other acceptable resolution per company policy; 5) Contact customer (sarah@example.com) with the resolution and next steps. Include any authorization for expedited shipping/compensation if applicable.",
+        "status": "open"
     }
 ]

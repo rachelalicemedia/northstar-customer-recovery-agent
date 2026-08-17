@@ -11,7 +11,7 @@ from permissions import (
     check_action_permission,
     is_action_tool,
 )
-
+from verification import verify_tool_result
 
 load_dotenv()
 
@@ -265,6 +265,7 @@ def analyze_customer_message(message: str) -> CustomerAnalysis:
                         "reason": permission.reason
                     }
 
+
                 else:
 
                     log_event(
@@ -276,6 +277,37 @@ def analyze_customer_message(message: str) -> CustomerAnalysis:
                     )
 
                     result = tool_function(**arguments)
+
+                    verified, verification_reason = verify_tool_result(
+                        tool_name,
+                        result
+                    )
+
+                    log_event(
+                        "verification_check",
+                        {
+                            "tool": tool_name,
+                            "verified": verified,
+                            "reason": verification_reason
+                        }
+                    )
+
+                    if not verified:
+                        log_event(
+                            "verification_failure",
+                            {
+                                "tool": tool_name,
+                                "reason": verification_reason
+                            }
+                        )
+
+                        escalation = TOOL_FUNCTIONS["create_escalation"](
+                            reason=verification_reason,
+                            tool_name=tool_name
+                        )
+
+                        result = escalation
+
 
             else:
 

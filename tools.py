@@ -102,9 +102,32 @@ def create_support_ticket(
 
     return ticket
 
+def create_escalation(
+    reason: str,
+    tool_name: str
+) -> dict:
+    """Create an escalation when an action cannot be verified."""
+
+    escalation = {
+        "status": "escalated",
+        "tool": tool_name,
+        "reason": reason,
+        "message": (
+            "Human intervention required because the "
+            "requested action could not be verified."
+        )
+    }
+
+    print("\n--- ACTION ESCALATED ---")
+    print(json.dumps(escalation, indent=4))
+    print("------------------------\n")
+
+    return escalation
+
 TOOL_FUNCTIONS = {
     "get_policy": get_policy,
     "get_order": get_order,
     "send_customer_message": send_customer_message,
     "create_support_ticket": create_support_ticket,
+    "create_escalation": create_escalation,
 }

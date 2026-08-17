@@ -190,5 +190,187 @@
                 "message": "Hi Sarah \u2014\n\nI\u2019m very sorry your garden hose arrived cracked. I understand you need it for a project tomorrow and I\u2019m sorry for the inconvenience this causes.\n\nI can help get this resolved, but because you\u2019ve requested delivery by a specific date we need a human support agent to verify inventory and shipping options (I\u2019m not able to promise or arrange expedited shipping). I\u2019ve escalated your case to our support team so they can confirm availability and the fastest shipping options.\n\nTo help them resolve this quickly, could you please reply with a photo of the cracked hose and confirm that your shipping address is the same as on file? Our support team will review everything and contact you at this email with next steps.\n\nAgain, I\u2019m very sorry this happened and we\u2019ll prioritize getting it sorted.\n\nThank you,\nNorthstar Support"
             }
         }
+    },
+    {
+        "timestamp": "2026-08-17T17:15:41.520128",
+        "event_type": "tool_called",
+        "details": {
+            "tool": "get_policy",
+            "arguments": {}
+        }
+    },
+    {
+        "timestamp": "2026-08-17T17:15:43.718771",
+        "event_type": "tool_called",
+        "details": {
+            "tool": "get_order",
+            "arguments": {
+                "order_id": "NS-1001"
+            }
+        }
+    },
+    {
+        "timestamp": "2026-08-17T17:16:02.118627",
+        "event_type": "permission_check",
+        "details": {
+            "tool": "create_support_ticket",
+            "allowed": true,
+            "reason": "Action is authorized by Northstar policy."
+        }
+    },
+    {
+        "timestamp": "2026-08-17T17:16:02.133559",
+        "event_type": "tool_called",
+        "details": {
+            "tool": "create_support_ticket",
+            "arguments": {
+                "customer_id": "C-001",
+                "order_id": "NS-1001",
+                "issue": "Delivered damaged (cracked) 100ft Heavy-Duty Garden Hose; customer needs replacement by tomorrow",
+                "severity": "high",
+                "customer_intent": "Customer requests a replacement shipped to arrive by tomorrow",
+                "summary": "Customer (Sarah Johnson, C-001) received order NS-1001 (100ft Heavy-Duty Garden Hose) delivered 2026-08-12. Customer reports hose arrived cracked and requests another one urgently for a project tomorrow. AI cannot verify inventory or promise expedited shipping.",
+                "policy_reason": "Per policy, replacements require inventory verification and the AI may not promise expedited shipping. Customer requests delivery by a specific date (tomorrow), which requires human escalation to check stock and shipping options.",
+                "recommended_action": "1) Verify current inventory for product P-001. 2) If in stock, evaluate shipping options and provide the customer with available shipping speeds and any costs (offer standard replacement shipping at no cost; consider expedited shipping if available and authorize per company rules). 3) If expedited shipping is needed and allowed, arrange it or offer alternatives (refund or store credit) if not available. 4) Communicate options and next steps to customer at sarah@example.com and confirm which option they choose. 5) If replacement shipped, provide tracking and expected delivery date. 6) If refund chosen/required, process refund to original payment method and confirm to customer. Include request for a photo of the damaged item if needed for quality tracking, but do not delay resolution for the photo if customer needs urgent replacement."
+            }
+        }
+    },
+    {
+        "timestamp": "2026-08-17T17:16:02.146524",
+        "event_type": "verification_check",
+        "details": {
+            "tool": "create_support_ticket",
+            "verified": true,
+            "reason": "Support ticket T-1007 was successfully created."
+        }
+    },
+    {
+        "timestamp": "2026-08-17T17:16:09.353923",
+        "event_type": "permission_check",
+        "details": {
+            "tool": "send_customer_message",
+            "allowed": true,
+            "reason": "Action is authorized by Northstar policy."
+        }
+    },
+    {
+        "timestamp": "2026-08-17T17:16:09.367901",
+        "event_type": "tool_called",
+        "details": {
+            "tool": "send_customer_message",
+            "arguments": {
+                "customer_email": "sarah@example.com",
+                "message": "Hi Sarah \u2014 I\u2019m very sorry your garden hose arrived cracked. I know you need it for a project tomorrow and I apologize for the inconvenience.\n\nI can start a replacement for you, but because you need delivery by a specific date (tomorrow) I must escalate this to our support team so they can verify inventory and determine available shipping options. I can\u2019t promise expedited shipping from here.\n\nTo help us move quickly, could you please reply with a photo of the cracked hose? Also confirm whether the shipping address on the order is still correct. Our support team will review this right away and contact you at this email with available options.\n\nAgain, I\u2019m sorry for the trouble \u2014 we\u2019ll escalate this now and someone from our support team will be in touch."
+            }
+        }
+    },
+    {
+        "timestamp": "2026-08-17T17:16:09.377860",
+        "event_type": "verification_check",
+        "details": {
+            "tool": "send_customer_message",
+            "verified": true,
+            "reason": "Customer message was successfully sent."
+        }
+    },
+    {
+        "timestamp": "2026-08-17T17:21:37.519531",
+        "event_type": "tool_called",
+        "details": {
+            "tool": "get_policy",
+            "arguments": {}
+        }
+    },
+    {
+        "timestamp": "2026-08-17T17:21:37.532495",
+        "event_type": "tool_called",
+        "details": {
+            "tool": "get_order",
+            "arguments": {
+                "order_id": "NS-1001"
+            }
+        }
+    },
+    {
+        "timestamp": "2026-08-17T17:21:59.361467",
+        "event_type": "permission_check",
+        "details": {
+            "tool": "create_support_ticket",
+            "allowed": true,
+            "reason": "Action is authorized by Northstar policy."
+        }
+    },
+    {
+        "timestamp": "2026-08-17T17:21:59.372441",
+        "event_type": "tool_called",
+        "details": {
+            "tool": "create_support_ticket",
+            "arguments": {
+                "customer_id": "C-001",
+                "order_id": "NS-1001",
+                "issue": "100ft Heavy-Duty Garden Hose arrived cracked/damaged; customer needs replacement by tomorrow (time-sensitive).",
+                "severity": "high",
+                "customer_intent": "Customer asks for a replacement sent to arrive by next-day (needs hose for project tomorrow).",
+                "summary": "Order NS-1001 (C-001, Sarah Johnson) delivered 2026-08-12 contained a cracked 100ft Heavy-Duty Garden Hose. Customer reports damage and requests another sent to arrive by 2026-08-18 (tomorrow). This is time-sensitive; AI cannot verify inventory or promise expedited shipping.",
+                "policy_reason": "Customer requires delivery by a specific date and may need expedited shipping. Per policy, the AI must escalate when a customer requires expedited shipping or when verifying inventory/shipping options is necessary.",
+                "recommended_action": "Human agent should: 1) Verify inventory for product P-001; 2) Check shipping options and cutoff times to determine if next-day delivery or expedited shipping is possible; 3) If expedited shipping is available, authorize and arrange shipment or offer alternative (local pickup, nearest store) and confirm cost coverage; 4) If replacement cannot arrive by the required date, offer refund or other acceptable resolution per company policy; 5) Contact customer (sarah@example.com) with the resolution and next steps. Include any authorization for expedited shipping/compensation if applicable."
+            }
+        }
+    },
+    {
+        "timestamp": "2026-08-17T17:21:59.385435",
+        "event_type": "verification_check",
+        "details": {
+            "tool": "create_support_ticket",
+            "verified": true,
+            "reason": "Support ticket T-1008 was successfully created."
+        }
+    },
+    {
+        "timestamp": "2026-08-17T17:22:08.299615",
+        "event_type": "permission_check",
+        "details": {
+            "tool": "send_customer_message",
+            "allowed": false,
+            "reason": "The message implies that the support team may explore expedited shipping options, which the AI is not authorized to do. Additionally, offering the customer a choice between replacement or refund without confirming policy approval for exceptions constitutes a potential breach of policy."
+        }
+    },
+    {
+        "timestamp": "2026-08-17T17:22:15.156366",
+        "event_type": "permission_check",
+        "details": {
+            "tool": "send_customer_message",
+            "allowed": false,
+            "reason": "The message implies that the customer may choose between a replacement or a refund, which could be construed as offering options without clear authorization. The policy states that exceptions cannot be approved independently by the AI."
+        }
+    },
+    {
+        "timestamp": "2026-08-17T17:22:20.299420",
+        "event_type": "permission_check",
+        "details": {
+            "tool": "send_customer_message",
+            "allowed": true,
+            "reason": "Action is authorized by Northstar policy."
+        }
+    },
+    {
+        "timestamp": "2026-08-17T17:22:20.310390",
+        "event_type": "tool_called",
+        "details": {
+            "tool": "send_customer_message",
+            "arguments": {
+                "customer_email": "sarah@example.com",
+                "message": "Hi Sarah,\n\nI'm very sorry your 100ft Heavy\u2011Duty Garden Hose (order NS-1001) arrived cracked \u2014 I know you need it for a project tomorrow. I\u2019ve escalated this as urgent to our support team (ticket T-1008). A human agent will contact you as soon as possible to confirm next steps.\n\nThank you for your patience,\nNorthstar Support"
+            }
+        }
+    },
+    {
+        "timestamp": "2026-08-17T17:22:20.322386",
+        "event_type": "verification_check",
+        "details": {
+            "tool": "send_customer_message",
+            "verified": true,
+            "reason": "Customer message was successfully sent."
+        }
     }
 ]
