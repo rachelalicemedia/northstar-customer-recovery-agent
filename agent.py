@@ -429,3 +429,15 @@ def analyze_customer_message(
     print("-------------------\n")
 
     return final_response.output_parsed
+
+def resume_agent(human_input: str) -> CustomerAnalysis:
+    state = AgentState.load("agent_state.json")
+
+    state.human_input = human_input
+    state.requires_human = False
+    state.set_status(AgentStatus.ANALYZING)
+
+    return analyze_customer_message(
+        "Resume the customer recovery workflow.",
+        state=state
+    )

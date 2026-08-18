@@ -1,21 +1,16 @@
-from agent import analyze_customer_message
+from agent import resume_agent
 
 
-message = """
-Customer: Sarah Johnson
-Customer ID: C-001
-Email: sarah@example.com
-Order ID: NS-1001
+print("\n--- RESUMING WORKFLOW ---")
 
-My 100ft Heavy-Duty Garden Hose arrived cracked. I need a replacement
-because I have a project tomorrow, so I need the replacement delivered
-by tomorrow.
-"""
+result = resume_agent(
+    """
+    Human support has confirmed that product P-001 is currently in stock.
+    Next-day shipping is available and has been approved.
+    The replacement can be shipped today.
+    """
+)
 
-
-result = analyze_customer_message(message)
-
-
-print("\n--- FINAL ANALYSIS ---")
+print("\n--- RESUMED FINAL ANALYSIS ---")
 print(result)
-print("----------------------\n")
+print("-----------------------------\n")
