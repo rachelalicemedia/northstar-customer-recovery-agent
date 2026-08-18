@@ -12,6 +12,7 @@ from permissions import (
     is_action_tool,
 )
 from verification import verify_tool_result
+from agent_state import AgentState, AgentStatus
 
 load_dotenv()
 
@@ -138,6 +139,10 @@ TOOLS = [
     },
 ]
 
+HUMAN_WAIT_BLOCKED_TOOLS = {
+    "send_customer_message",
+    "create_support_ticket",
+}
 
 SYSTEM_PROMPT = """
 You are the Northstar Supply Co. Customer Recovery Agent.
@@ -197,7 +202,15 @@ to create the ticket.
 """
 
 
-def analyze_customer_message(message: str) -> CustomerAnalysis:
+def analyze_customer_message(
+    message: str,
+    state: AgentState | None = None
+) -> CustomerAnalysis:
+
+    if state is None:
+        state = AgentState()
+
+    state.set_status(AgentStatus.ANALYZING)
 
     conversation = [
         {
@@ -209,6 +222,31 @@ def analyze_customer_message(message: str) -> CustomerAnalysis:
             "content": message
         }
     ]
+
+    if state.human_input:
+        conversation.append({
+            "role": "user",
+            "content": (
+                "This workflow is being resumed after human intervention.\n\n"
+                "The human support agent provided the following information:\n\n"
+                f"{state.human_input}\n\n"
+                "Continue the workflow using this information. "
+                "Do not repeat actions already recorded as completed."
+            )
+        })
+
+    if state.human_input:
+        conversation.append({
+            "role": "user",
+            "content": (
+                "Existing workflow state:\n"
+                f"Customer ID: {state.customer_id}\n"
+                f"Order ID: {state.order_id}\n"
+                f"Ticket ID: {state.ticket_id}\n"
+                f"Actions already completed: {state.actions_completed}\n"
+                f"Human intervention required: {state.requires_human}\n"
+            )
+        })
 
     while True:
 
@@ -229,6 +267,8 @@ def analyze_customer_message(message: str) -> CustomerAnalysis:
         if not tool_calls:
             break
 
+        state.set_status(AgentStatus.EXECUTING)
+
         for tool_call in tool_calls:
 
             tool_name = tool_call.name
@@ -237,6 +277,35 @@ def analyze_customer_message(message: str) -> CustomerAnalysis:
                 raise ValueError(
                     f"Unknown tool requested: {tool_name}"
                 )
+
+            if (
+                    state.current_status == AgentStatus.AWAITING_HUMAN
+                    and tool_name in HUMAN_WAIT_BLOCKED_TOOLS
+            ):
+                result = {
+                    "status": "blocked",
+                    "reason": (
+                        "Tool execution blocked because the agent "
+                        "is awaiting human intervention."
+                    )
+                }
+
+                log_event(
+                    "state_guard",
+                    {
+                        "tool": tool_name,
+                        "state": state.current_status.value,
+                        "reason": result["reason"]
+                    }
+                )
+
+                conversation.append({
+                    "type": "function_call_output",
+                    "call_id": tool_call.call_id,
+                    "output": str(result)
+                })
+
+                continue
 
             tool_function = TOOL_FUNCTIONS[tool_name]
 
@@ -308,6 +377,13 @@ def analyze_customer_message(message: str) -> CustomerAnalysis:
 
                         result = escalation
 
+                    else:
+                        state.record_action(tool_name)
+
+                        if tool_name == "create_support_ticket":
+                            state.ticket_id = result["ticket_id"]
+
+
 
             else:
 
@@ -321,6 +397,13 @@ def analyze_customer_message(message: str) -> CustomerAnalysis:
 
                 result = tool_function(**arguments)
 
+                if tool_name == "get_order":
+
+                    state.customer_id = result["customer_id"]
+                    state.order_id = result["order_id"]
+
+                state.record_action(tool_name)
+
             conversation.append({
                 "type": "function_call_output",
                 "call_id": tool_call.call_id,
@@ -332,5 +415,17 @@ def analyze_customer_message(message: str) -> CustomerAnalysis:
         input=conversation,
         text_format=CustomerAnalysis
     )
+
+    state.requires_human = final_response.output_parsed.requires_human
+
+    if state.requires_human:
+        state.set_status(AgentStatus.AWAITING_HUMAN)
+        state.save("agent_state.json")
+    else:
+        state.set_status(AgentStatus.COMPLETED)
+
+    print("\n--- AGENT STATE ---")
+    print(state)
+    print("-------------------\n")
 
     return final_response.output_parsed

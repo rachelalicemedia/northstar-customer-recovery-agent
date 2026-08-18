@@ -2,12 +2,20 @@ from agent import analyze_customer_message
 
 
 message = """
-My order number is NS-1001.
+Customer: Sarah Johnson
+Customer ID: C-001
+Email: sarah@example.com
+Order ID: NS-1001
 
-My garden hose arrived cracked and I need it for a project tomorrow.
-Can you send me another one?
+My 100ft Heavy-Duty Garden Hose arrived cracked. I need a replacement
+because I have a project tomorrow, so I need the replacement delivered
+by tomorrow.
 """
 
-analysis = analyze_customer_message(message)
 
-print(analysis)
+result = analyze_customer_message(message)
+
+
+print("\n--- FINAL ANALYSIS ---")
+print(result)
+print("----------------------\n")
