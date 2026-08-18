@@ -968,5 +968,43 @@
             "verified": true,
             "reason": "Customer message was successfully sent."
         }
+    },
+    {
+        "timestamp": "2026-08-18T18:13:39.199796",
+        "event_type": "tool_called",
+        "details": {
+            "tool": "get_policy",
+            "arguments": {}
+        }
+    },
+    {
+        "timestamp": "2026-08-18T18:13:45.006258",
+        "event_type": "permission_check",
+        "details": {
+            "tool": "ship_replacement",
+            "allowed": true,
+            "reason": "Action is authorized by Northstar policy."
+        }
+    },
+    {
+        "timestamp": "2026-08-18T18:13:45.020221",
+        "event_type": "tool_called",
+        "details": {
+            "tool": "ship_replacement",
+            "arguments": {
+                "order_id": "NS-1001",
+                "product_id": "P-001",
+                "shipping_method": "next_day"
+            }
+        }
+    },
+    {
+        "timestamp": "2026-08-18T18:13:45.034183",
+        "event_type": "verification_check",
+        "details": {
+            "tool": "ship_replacement",
+            "verified": true,
+            "reason": "Replacement shipment S-2001 was successfully created."
+        }
     }
 ]

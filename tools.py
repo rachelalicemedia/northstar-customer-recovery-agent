@@ -124,10 +124,31 @@ def create_escalation(
 
     return escalation
 
+def ship_replacement(
+    order_id: str,
+    product_id: str,
+    shipping_method: str
+):
+    shipment = {
+        "status": "shipped",
+        "shipment_id": "S-2001",
+        "tracking_number": "NS-TRACK-2001",
+        "order_id": order_id,
+        "product_id": product_id,
+        "shipping_method": shipping_method
+    }
+
+    print("\n--- REPLACEMENT SHIPPED ---")
+    print(shipment)
+    print("---------------------------\n")
+
+    return shipment
+
 TOOL_FUNCTIONS = {
     "get_policy": get_policy,
     "get_order": get_order,
     "send_customer_message": send_customer_message,
     "create_support_ticket": create_support_ticket,
     "create_escalation": create_escalation,
+    "ship_replacement": ship_replacement,
 }

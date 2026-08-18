@@ -137,6 +137,41 @@ TOOLS = [
             "additionalProperties": False
         }
     },
+    {
+            "type": "function",
+            "name": "ship_replacement",
+            "description": (
+                "Ship a replacement product for a customer order "
+                "when human approval has confirmed that replacement "
+                "and the required shipping method are authorized."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "order_id": {
+                        "type": "string",
+                        "description": "The Northstar order ID."
+                    },
+                    "product_id": {
+                        "type": "string",
+                        "description": "The product ID being shipped."
+                    },
+                    "shipping_method": {
+                        "type": "string",
+                        "description": (
+                            "The approved shipping method, such as "
+                            "next_day."
+                        )
+                    }
+                },
+                "required": [
+                    "order_id",
+                    "product_id",
+                    "shipping_method"
+                ],
+                "additionalProperties": False
+            }
+    },
 ]
 
 HUMAN_WAIT_BLOCKED_TOOLS = {
@@ -199,6 +234,21 @@ without rereading the original customer conversation.
 
 Do not merely recommend escalation. Use the support ticket tool
 to create the ticket.
+
+When a workflow is resumed after human intervention, use the
+existing workflow state and the human-provided information.
+
+Do not repeat actions already recorded as completed.
+
+If human support has confirmed that a replacement is authorized,
+the required product is available, and the required shipping method
+has been approved, use the ship_replacement tool to fulfill the
+replacement.
+
+After a replacement is successfully shipped, use the shipment
+result to determine the next appropriate customer communication
+and indicate that the workflow no longer requires human
+intervention unless another policy issue remains.
 """
 
 
@@ -378,10 +428,16 @@ def analyze_customer_message(
                         result = escalation
 
                     else:
+
                         state.record_action(tool_name)
 
                         if tool_name == "create_support_ticket":
                             state.ticket_id = result["ticket_id"]
+
+                        if tool_name == "ship_replacement":
+                            state.shipment_id = result["shipment_id"]
+
+                            state.tracking_number = result["tracking_number"]
 
 
 

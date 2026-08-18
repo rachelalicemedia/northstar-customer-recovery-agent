@@ -16,6 +16,14 @@ POLICY_RULES = {
         "restrictions": [],
     },
 
+    "ship_replacement": {
+        "allowed": True,
+        "restrictions": [
+            "Requires human approval of replacement and shipping method",
+            "Cannot be used to promise delivery before shipment is confirmed",
+        ],
+    },
+
     "get_order": {
         "allowed": True,
         "restrictions": [],

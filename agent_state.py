@@ -15,6 +15,8 @@ class AgentState(BaseModel):
     customer_id: str | None = None
     order_id: str | None = None
     ticket_id: str | None = None
+    shipment_id: str | None = None
+    tracking_number: str | None = None
 
     damage_confirmed: bool = False
     requires_human: bool = False

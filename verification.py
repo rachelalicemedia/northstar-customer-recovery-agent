@@ -29,6 +29,23 @@ def verify_tool_result(tool_name: str, result) -> tuple[bool, str]:
 
         return False, "Support ticket tool did not return a ticket ID."
 
+    if tool_name == "ship_replacement":
+
+        if (
+            result.get("status") == "shipped"
+            and result.get("shipment_id")
+            and result.get("tracking_number")
+        ):
+            return True, (
+                f"Replacement shipment {result['shipment_id']} "
+                "was successfully created."
+            )
+
+        return False, (
+            "Replacement shipment tool did not confirm "
+            "a valid shipment."
+        )
+
     if tool_name in {"get_order", "get_policy"}:
 
         if result:

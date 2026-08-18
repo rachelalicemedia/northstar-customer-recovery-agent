@@ -80,6 +80,7 @@ READ_ONLY_TOOLS = {
 ACTION_TOOLS = {
     "send_customer_message",
     "create_support_ticket",
+    "ship_replacement",
 }
 
 
