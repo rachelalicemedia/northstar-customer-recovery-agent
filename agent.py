@@ -254,7 +254,8 @@ intervention unless another policy issue remains.
 
 def analyze_customer_message(
     message: str,
-    state: AgentState | None = None
+    state: AgentState | None = None,
+    state_file: str = "agent_state.json"
 ) -> CustomerAnalysis:
 
     if state is None:
@@ -476,7 +477,7 @@ def analyze_customer_message(
 
     if state.requires_human:
         state.set_status(AgentStatus.AWAITING_HUMAN)
-        state.save("agent_state.json")
+        state.save(state_file)
     else:
         state.set_status(AgentStatus.COMPLETED)
 

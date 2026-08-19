@@ -129,6 +129,22 @@ def ship_replacement(
     product_id: str,
     shipping_method: str
 ):
+    if shipping_method == "simulate_failure":
+
+        result = {
+            "status": "failed",
+            "order_id": order_id,
+            "product_id": product_id,
+            "shipping_method": shipping_method,
+            "reason": "Simulated fulfillment system failure."
+        }
+
+        print("\n--- REPLACEMENT SHIPMENT FAILED ---")
+        print(result)
+        print("------------------------------------\n")
+
+        return result
+
     shipment = {
         "status": "shipped",
         "shipment_id": "S-2001",
